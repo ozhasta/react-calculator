@@ -1,44 +1,68 @@
 import { useReducer } from "react"
 import Tips from "./Tips"
 import Buttons from "./Buttons"
-import "./App.css"
 
 const defaultState = {
   currentInput: "0",
-  previousInput: ""
+  previousInput: "",
+  operation: ""
 }
 function reducer(state, action) {
   action.type = action.type === "*" ? "x" : action.type
   action.type = action.type === "/" ? "÷" : action.type
-  console.log(action.type)
 
   switch (action.type) {
     case "x":
-      return { ...state, currentInput: "", previousInput: state.currentInput.concat(action.type) }
-
     case "÷":
-      return { ...state, currentInput: "", previousInput: state.currentInput.concat(action.type) }
-
     case "-":
-      return { ...state, currentInput: "", previousInput: state.currentInput.concat(action.type) }
-
     case "+":
-      return { ...state, currentInput: "", previousInput: state.currentInput.concat(action.type) }
+      return {
+        ...state,
+        previousInput: state.currentInput + action.type,
+        currentInput: "",
+        operation: action.type
+      }
 
     case "Enter":
     case "=":
-      break
+      if (
+        state.previousInput &&
+        state.currentInput &&
+        state.operation &&
+        state.currentInput !== "."
+      ) {
+        const result = compute(state)
+        return {
+          ...state,
+          currentInput: result,
+          previousInput: ""
+        }
+      } else {
+        return state
+      }
 
     case "Escape":
     case "Delete":
-      break
+      return defaultState
 
     case "Backspace":
-      break
+      let tempResult = state.currentInput.substring(0, state.currentInput.length - 1)
+      tempResult = state.currentInput.length > 1 ? tempResult : "0"
+      return {
+        ...state,
+        currentInput: tempResult
+      }
 
     case ".":
     case ",":
-      break
+      if (!state.currentInput.includes(".")) {
+        return {
+          ...state,
+          currentInput: (state.currentInput += state.currentInput ? "." : "0.")
+        }
+      } else {
+        return state
+      }
 
     default:
       if (state.currentInput === "0") {
@@ -47,6 +71,28 @@ function reducer(state, action) {
         return { ...state, currentInput: state.currentInput.concat(action.type) }
       }
   }
+}
+
+function compute(state) {
+  let result
+  let num1 = parseFloat(state.previousInput)
+  let num2 = parseFloat(state.currentInput)
+  switch (state.operation) {
+    case "+":
+      result = num1 + num2
+      break
+    case "-":
+      result = num1 - num2
+      break
+    case "x":
+      result = num1 * num2
+      break
+    case "÷":
+      result = num1 / num2
+      break
+  }
+  result = parseFloat(result.toFixed(8))
+  return result
 }
 
 function App() {
