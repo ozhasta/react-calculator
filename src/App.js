@@ -1,4 +1,4 @@
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import Tips from "./Tips"
 import Buttons from "./Buttons"
 
@@ -38,7 +38,7 @@ function reducer(state, action) {
     case "+":
       if (validForCalculation) {
         const result = calculate(state)
-        isNaN(result)
+        return isNaN(result)
           ? invalidOperationState
           : {
               ...state,
@@ -65,7 +65,7 @@ function reducer(state, action) {
     case "=":
       if (validForCalculation) {
         const result = calculate(state)
-        isNaN(result)
+        return isNaN(result)
           ? invalidOperationState
           : {
               ...state,
@@ -96,9 +96,8 @@ function reducer(state, action) {
         ...state,
         currentInput: state.currentInput === "" ? "0." : state.currentInput.concat(".")
       }
-
-    default:
-      if (isNaN(state.currentInput) || state.currentInput.length >= 12) {
+    case /[0-9]/.test(action.type) ? action.type : "lorem":
+      if (state.invalidOperation || state.currentInput.length >= 12) {
         return state
       }
       if (state.currentInput === "0") {
@@ -108,6 +107,8 @@ function reducer(state, action) {
         ...state,
         currentInput: state.currentInput.toString().concat(action.type)
       }
+    default:
+      return state
   }
 }
 function calculate(state) {
@@ -138,14 +139,21 @@ function calculate(state) {
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState)
 
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeydown)
+  }, [])
+
+  function handleKeydown(e) {
+    dispatch({ type: e.key })
+  }
+
   function handleClick(e) {
     e.preventDefault()
-    if (e.target.dataset.input !== undefined) {
-      if (state.invalidOperation) {
-        dispatch({ type: "Delete" })
-      }
-      dispatch({ type: e.target.dataset.input })
+    if (e.target.dataset.input === undefined) return
+    if (state.invalidOperation) {
+      return dispatch({ type: "Delete" })
     }
+    dispatch({ type: e.target.dataset.input })
   }
 
   return (
@@ -158,7 +166,7 @@ function App() {
           </div>
           <div id="current-screen">{state.currentInput}</div>
         </div>
-        <Buttons handleClick={handleClick} />
+        <Buttons handleClick={(e) => handleClick(e)} />
       </div>
       <Tips />
     </div>
