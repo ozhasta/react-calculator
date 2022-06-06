@@ -15,7 +15,7 @@ body {
   color: #fff;
   background: rgb(0, 60, 100);
   background: linear-gradient(270deg, rgb(0, 60, 100), rgb(11, 82, 53));
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto Mono", monospace;
   font-size: 2rem;
   height: 100%;
   user-select: none;
@@ -24,23 +24,23 @@ body {
 
 #previous-screen-container {
   text-align: right;
-  border-top: 3px solid #fff;
+  /* border-top: 3px solid #fff;
   border-left: 3px solid #fff;
-  border-right: 3px solid #fff;
+  border-right: 3px solid #fff; */
   font-size: 2.5rem;
-
   padding: 0.1em 0.3em;
-  min-height: calc(2.5rem + 0.5em);
+  min-height: calc(2.5rem + 0.2em);
+  line-height: 1;
 }
 
 #current-screen {
   text-align: right;
-  border: 3px solid #fff;
+  /* border: 3px solid #fff; */
   margin-bottom: 0.5em;
   font-size: 2.5rem;
-
   padding: 0.1em 0.3em;
-  min-height: calc(2.5rem + 0.5em);
+  min-height: calc(2.5rem + 0.2em);
+  line-height: 1;
 }
 
 .screen {
@@ -125,9 +125,9 @@ body {
   max-width: min-content;
   border: 2px solid;
 }
+
 .btn-container {
   justify-content: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: grid;
   gap: 0.25em;
   grid-template-areas:
@@ -137,7 +137,9 @@ body {
     "btn-1 btn-2 btn-3 btn-plus"
     "btn-comma btn-0 btn-equals btn-equals";
 }
-
+button {
+  font-family: inherit;
+}
 .calc-btn:hover {
   background-color: rgb(105, 197, 228) !important;
 }
@@ -148,7 +150,6 @@ body {
 
 .tips {
   text-align: center;
-  font-family: "Courier New", Courier, monospace;
   margin: 1em 0 0 0;
   font-size: 1rem;
 }
