@@ -1,13 +1,13 @@
-export default function Buttons({ handleClick }) {
+export default function Buttons({ handleInputs }) {
   return (
-    <div onClick={handleClick} className="btn-container">
+    <div onClick={handleInputs} className="btn-container">
       <button className="calc-btn" id="btn-c" data-input="Delete">
         C
       </button>
       <button className="calc-btn" id="btn-backspace" data-input="Backspace">
         ←
       </button>
-      <button className="calc-btn operation-buttons" id="btn-obelus" data-input="÷">
+      <button className="calc-btn operation-buttons" id="btn-obelus" data-input="/">
         ÷
       </button>
       <button className="calc-btn" id="btn-7" data-input="7">
@@ -19,7 +19,7 @@ export default function Buttons({ handleClick }) {
       <button className="calc-btn" id="btn-9" data-input="9">
         9
       </button>
-      <button className="calc-btn operation-buttons" id="btn-times" data-input="x">
+      <button className="calc-btn operation-buttons" id="btn-times" data-input="*">
         x
       </button>
       <button className="calc-btn" id="btn-4" data-input="4">

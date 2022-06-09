@@ -23,29 +23,22 @@ body {
 }
 
 #previous-screen-container {
-  text-align: right;
   /* border-top: 3px solid #fff;
   border-left: 3px solid #fff;
   border-right: 3px solid #fff; */
-  font-size: 2.5rem;
-  padding: 0.1em 0.3em;
-  min-height: calc(2.5rem + 0.2em);
-  line-height: 1;
+  height: 2.75rem;
 }
 
 #current-screen {
-  text-align: right;
-  /* border: 3px solid #fff; */
-  margin-bottom: 0.5em;
-  font-size: 2.5rem;
-  padding: 0.1em 0.3em;
-  min-height: calc(2.5rem + 0.2em);
-  line-height: 1;
+  height: 2.75rem;
 }
 
 .screen {
+  line-height: 1;
+  text-align: right;
+  padding: 0.2rem 0.4rem;
   background-color: rgba(125, 140, 115);
-  margin: auto;
+  height: 6rem;
 }
 
 .calc-btn {
@@ -127,6 +120,7 @@ body {
 }
 
 .btn-container {
+  margin-top: 0.5em;
   justify-content: center;
   display: grid;
   gap: 0.25em;
@@ -154,14 +148,13 @@ button {
   font-size: 1rem;
 }
 
+@media screen and (max-width: 399px) {
+  html {
+    font-size: 13px;
+  }
+}
 @media screen and (max-width: 359px) {
   html {
-    font-size: 14px;
-  }
-  #current-screen {
-    font-size: 1.8rem;
-  }
-  #previous-screen {
-    font-size: 1.8rem;
+    font-size: 12px;
   }
 }
