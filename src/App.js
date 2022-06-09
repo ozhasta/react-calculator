@@ -9,14 +9,18 @@ const defaultState = {
   invalidOperation: false
 }
 
-const invalidOperationState = {
-  previousInput: "😊Invalid",
-  currentInput: "operation",
-  operation: "",
-  invalidOperation: true
-}
-
-const inputFilterForKeyboard = ["Delete", "Enter", "Escape", "Backspace", ",", "/", "*", "-", "+"]
+const inputFilterForKeyboard = [
+  "Delete",
+  "Enter",
+  "Escape",
+  "Backspace",
+  ",",
+  ".",
+  "/",
+  "*",
+  "-",
+  "+"
+]
 
 function digit(input) {
   if (input.toString().length === 1 && /^[\d]/.test(input)) return input
@@ -25,6 +29,7 @@ function digit(input) {
 function reducer(state, action) {
   action.type = action.type === "*" ? "x" : action.type
   action.type = action.type === "/" ? "÷" : action.type
+  action.type = action.type === "," ? "." : action.type
   action.type = action.type === "Enter" ? "=" : action.type
 
   // first and second numeric inputs are valid (previousInput/num1, currentInput/num2),
@@ -43,9 +48,7 @@ function reducer(state, action) {
     case "÷":
     case "-":
     case "+":
-      if (validForCalculation) {
-        return calculate(state, action)
-      }
+      if (validForCalculation) return calculate(state, action)
       if (validForChainOperation) {
         return {
           ...state,
@@ -77,21 +80,17 @@ function reducer(state, action) {
       }
 
     case ".":
-    case ",":
-      if (state.currentInput.toString().includes(".") || state.operation === "=") {
-        return state
-      }
+      if (state.currentInput.toString().includes(".") || state.operation === "=") return state
 
       return {
         ...state,
         currentInput: state.currentInput === "" ? "0." : state.currentInput.concat(".")
       }
 
-    // catching digits here: function evaluates 0-9 as a case clause if input contains 0-9
+    // catching digits here: function returns 0-9 as "case clause" if input contains 0-9
     case digit(action.type):
-      if (state.invalidOperation || state.currentInput.length >= 12) {
-        return state
-      }
+      if (state.currentInput.length >= 12) return state
+
       if (state.operation === "=") {
         return { ...defaultState, currentInput: action.type }
       }
@@ -130,7 +129,13 @@ function calculate(state, action) {
   result = parseFloat(result.toFixed(7)).toString()
 
   return isNaN(result)
-    ? invalidOperationState
+    ? {
+        ...state,
+        previousInput: "😊Invalid",
+        currentInput: "operation",
+        operation: "",
+        invalidOperation: true
+      }
     : {
         ...state,
         currentInput: "",
@@ -144,23 +149,19 @@ function App() {
 
   useEffect(() => {
     document.addEventListener("keydown", handleInputs)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     // console.log("useEffect")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     return () => document.removeEventListener("keydown", handleInputs)
   }, [])
 
   function handleInputs(e) {
     const input = e.target.dataset.input || e.key
-    const isNumericKeyCode = parseInt(e.key) >= 0 || parseInt(e.key) <= 9
-    if (e.type === "keydown" && !isNumericKeyCode && !inputFilterForKeyboard.includes(input)) return
-    if (e.type === "click" && input === undefined) return
+    if (input === undefined) return
+    const isNumeric = parseInt(e.key) >= 0 || parseInt(e.key) <= 9
+    if (e.type === "keydown" && !isNumeric && !inputFilterForKeyboard.includes(input)) return
     e.preventDefault()
     e.target.blur()
     return state.invalidOperation ? dispatch({ type: "Delete" }) : dispatch({ type: input })
-  }
-
-  const screenFontSize = {
-    fontSize: state.currentInput.length > 9 || state.previousInput.length > 9 ? "1.6rem" : "2.2rem"
   }
 
   const determineFontSize = () => {
