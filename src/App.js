@@ -89,6 +89,7 @@ function reducer(state, action) {
 
     // catching digits here: function returns 0-9 as "case clause" if input contains 0-9
     case digit(action.type):
+      // max input length
       if (state.currentInput.length >= 12) return state
 
       if (state.operation === "=") {

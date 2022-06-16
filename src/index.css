@@ -39,6 +39,7 @@ body {
   padding: 0.2rem 0.4rem;
   background-color: rgba(125, 140, 115);
   height: 6rem;
+  border-radius: 5px;
 }
 
 .calc-btn {
@@ -120,6 +121,7 @@ body {
   margin-right: auto;
   max-width: min-content;
   border: 2px solid;
+  border-radius: 10px;
 }
 
 .btn-container {
