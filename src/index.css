@@ -86,6 +86,9 @@ body {
   border-radius: 0.8em;
   background-color: goldenrod;
 }
+#btn-equals:hover {
+  background-color: rgb(105, 197, 228);
+}
 #btn-times {
   grid-area: btn-times;
 }
@@ -135,7 +138,7 @@ button {
   font-family: inherit;
 }
 .calc-btn:hover {
-  background-color: rgb(105, 197, 228) !important;
+  background-color: rgb(105, 197, 228);
 }
 .calc-btn:active {
   transform: scale(0.95);
