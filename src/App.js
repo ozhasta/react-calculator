@@ -151,8 +151,8 @@ function App() {
   useEffect(() => {
     document.addEventListener("keydown", handleInputs)
     // console.log("useEffect")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     return () => document.removeEventListener("keydown", handleInputs)
+    // eslint-disable-next-line
   }, [])
 
   function handleInputs(e) {
