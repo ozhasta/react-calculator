@@ -6,7 +6,7 @@ const defaultState = {
   currentInput: "0",
   previousInput: "",
   operation: "",
-  invalidOperation: false
+  invalidOperation: false,
 }
 
 const inputFilterForKeyboard = [
@@ -19,7 +19,7 @@ const inputFilterForKeyboard = [
   "/",
   "*",
   "-",
-  "+"
+  "+",
 ]
 
 function digit(input) {
@@ -52,14 +52,14 @@ function reducer(state, action) {
       if (validForChainOperation) {
         return {
           ...state,
-          operation: action.type
+          operation: action.type,
         }
       }
       return {
         ...state,
         previousInput: state.currentInput,
         currentInput: "",
-        operation: action.type
+        operation: action.type,
       }
 
     case "=":
@@ -76,7 +76,7 @@ function reducer(state, action) {
       let tempResult = state.currentInput.toString().substring(0, state.currentInput.length - 1)
       return {
         ...state,
-        currentInput: state.currentInput.toString().length > 1 ? tempResult : "0"
+        currentInput: state.currentInput.toString().length > 1 ? tempResult : "0",
       }
 
     case ".":
@@ -84,7 +84,7 @@ function reducer(state, action) {
 
       return {
         ...state,
-        currentInput: state.currentInput === "" ? "0." : state.currentInput.concat(".")
+        currentInput: state.currentInput === "" ? "0." : state.currentInput.concat("."),
       }
 
     // catching digits here: function returns 0-9 as "case clause" if input contains 0-9
@@ -100,7 +100,7 @@ function reducer(state, action) {
       }
       return {
         ...state,
-        currentInput: state.currentInput.toString().concat(action.type)
+        currentInput: state.currentInput.toString().concat(action.type),
       }
     default:
       return state
@@ -135,13 +135,13 @@ function calculate(state, action) {
         previousInput: "😊Invalid",
         currentInput: "operation",
         operation: "",
-        invalidOperation: true
+        invalidOperation: true,
       }
     : {
         ...state,
         currentInput: "",
         operation: action.type,
-        previousInput: result
+        previousInput: result,
       }
 }
 
@@ -150,7 +150,6 @@ function App() {
 
   useEffect(() => {
     document.addEventListener("keydown", handleInputs)
-    // console.log("useEffect")
     return () => document.removeEventListener("keydown", handleInputs)
     // eslint-disable-next-line
   }, [])
@@ -173,7 +172,6 @@ function App() {
     return fontSize
   }
 
-  // console.log("render")
   return (
     <div className="App">
       <div className="calc-container">
@@ -184,7 +182,7 @@ function App() {
           </div>
           <div id="current-screen">{state.currentInput}</div>
         </div>
-        <Buttons handleInputs={(e) => handleInputs(e)} />
+        <Buttons handleInputs={handleInputs} />
       </div>
       <Tips />
     </div>
