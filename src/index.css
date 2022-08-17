@@ -23,9 +23,6 @@ body {
 }
 
 #previous-screen-container {
-  /* border-top: 3px solid #fff;
-  border-left: 3px solid #fff;
-  border-right: 3px solid #fff; */
   height: 2.75rem;
 }
 
@@ -42,79 +39,6 @@ body {
   border-radius: 5px;
 }
 
-.calc-btn {
-  min-height: 1.6em;
-  min-width: 1.6em;
-  border-radius: 0.8em;
-  font-size: 3rem;
-}
-
-#btn-7 {
-  grid-area: btn-7;
-}
-#btn-8 {
-  grid-area: btn-8;
-}
-#btn-9 {
-  grid-area: btn-9;
-}
-#btn-4 {
-  grid-area: btn-4;
-}
-#btn-5 {
-  grid-area: btn-5;
-}
-#btn-6 {
-  grid-area: btn-6;
-}
-#btn-1 {
-  grid-area: btn-1;
-}
-#btn-2 {
-  grid-area: btn-2;
-}
-#btn-3 {
-  grid-area: btn-3;
-}
-#btn-c {
-  grid-area: btn-c;
-  width: 3.4em;
-  border-radius: 0.8em;
-}
-#btn-equals {
-  grid-area: btn-equals;
-  width: 3.4em;
-  border-radius: 0.8em;
-  background-color: goldenrod;
-}
-#btn-equals:hover {
-  background-color: rgb(105, 197, 228);
-}
-#btn-times {
-  grid-area: btn-times;
-}
-#btn-plus {
-  grid-area: btn-plus;
-}
-#btn-minus {
-  grid-area: btn-minus;
-}
-#btn-obelus {
-  grid-area: btn-obelus;
-}
-#btn-0 {
-  grid-area: btn-0;
-}
-#btn-comma {
-  grid-area: btn-comma;
-}
-#btn-backspace {
-  grid-area: btn-backspace;
-}
-.operation-buttons {
-  background-color: darkkhaki;
-}
-
 .calc-container {
   padding: 1rem;
   margin-left: auto;
@@ -129,22 +53,44 @@ body {
   justify-content: center;
   display: grid;
   gap: 0.25em;
-  grid-template-areas:
-    "btn-c btn-c btn-backspace btn-obelus"
-    "btn-7 btn-8 btn-9 btn-times"
-    "btn-4 btn-5 btn-6 btn-minus"
-    "btn-1 btn-2 btn-3 btn-plus"
-    "btn-comma btn-0 btn-equals btn-equals";
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
-button {
+
+.btn-container > button {
   font-family: inherit;
+  min-height: 1.6em;
+  min-width: 1.6em;
+  border-radius: 0.8em;
+  font-size: 3rem;
 }
-.calc-btn:hover {
+
+.btn-container > button:hover {
   background-color: rgb(105, 197, 228);
 }
-.calc-btn:active {
+
+.btn-container > button:active {
   transform: scale(0.95);
   transition: transform 0.15s;
+}
+
+/* btn C */
+.btn-container > button:first-child {
+  width: 3.4em;
+  border-radius: 0.8em;
+  grid-column: span 2;
+}
+
+/* btn = */
+.btn-container > button:last-child {
+  width: 3.4em;
+  border-radius: 0.8em;
+  background-color: goldenrod;
+  grid-column: span 2;
+}
+
+/* operator btn ÷ x - +  */
+.btn-container > :nth-child(4n-1) {
+  background-color: darkkhaki;
 }
 
 .tips {

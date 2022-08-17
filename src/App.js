@@ -22,16 +22,7 @@ const inputFilterForKeyboard = [
   "+",
 ]
 
-function digit(input) {
-  if (input.toString().length === 1 && /^[\d]/.test(input)) return input
-}
-
 function reducer(state, action) {
-  action.type = action.type === "*" ? "x" : action.type
-  action.type = action.type === "/" ? "÷" : action.type
-  action.type = action.type === "," ? "." : action.type
-  action.type = action.type === "Enter" ? "=" : action.type
-
   // first and second numeric inputs are valid (previousInput/num1, currentInput/num2),
   // operation input chosen (+ - * /), ready for calculation
   const validForCalculation =
@@ -44,8 +35,8 @@ function reducer(state, action) {
   const validForChainOperation = state.previousInput && !state.currentInput && state.operation
 
   switch (action.type) {
-    case "x":
-    case "÷":
+    case "*":
+    case "/":
     case "-":
     case "+":
       if (validForCalculation) return calculate(state, action)
@@ -62,7 +53,7 @@ function reducer(state, action) {
         operation: action.type,
       }
 
-    case "=":
+    case "Enter":
       if (validForCalculation) return calculate(state, action)
       else return state
 
@@ -80,6 +71,7 @@ function reducer(state, action) {
       }
 
     case ".":
+    case ",":
       if (state.currentInput.toString().includes(".") || state.operation === "=") return state
 
       return {
@@ -88,24 +80,25 @@ function reducer(state, action) {
       }
 
     // catching digits here: function returns 0-9 as "case clause" if input contains 0-9
-    case digit(action.type):
+    case "digit":
       // max input length
       if (state.currentInput.length >= 12) return state
 
-      if (state.operation === "=") {
-        return { ...defaultState, currentInput: action.type }
-      }
+      // if (state.operation === "=") {
+      //   return { ...defaultState, currentInput: action.payload }
+      // }
       if (state.currentInput === "0") {
-        return { ...state, currentInput: action.type }
+        return { ...state, currentInput: action.payload }
       }
       return {
         ...state,
-        currentInput: state.currentInput.toString().concat(action.type),
+        currentInput: state.currentInput.toString().concat(action.payload),
       }
     default:
       return state
   }
 }
+
 function calculate(state, action) {
   let result
   let num1 = parseFloat(state.previousInput)
@@ -149,19 +142,19 @@ function App() {
   const [state, dispatch] = useReducer(reducer, defaultState)
 
   useEffect(() => {
-    document.addEventListener("keydown", handleInputs)
-    return () => document.removeEventListener("keydown", handleInputs)
+    document.addEventListener("keydown", handleKeyboardInputs)
+    return () => document.removeEventListener("keydown", handleKeyboardInputs)
     // eslint-disable-next-line
   }, [])
 
-  function handleInputs(e) {
-    const input = e.target.dataset.input || e.key
-    if (input === undefined) return
+  function handleKeyboardInputs(e) {
+    console.log(e.key)
+    if (e.key === undefined) return
     const isNumeric = parseInt(e.key) >= 0 || parseInt(e.key) <= 9
-    if (e.type === "keydown" && !isNumeric && !inputFilterForKeyboard.includes(input)) return
+    if (!isNumeric && !inputFilterForKeyboard.includes(e.key)) return
     e.preventDefault()
     e.target.blur()
-    return state.invalidOperation ? dispatch({ type: "Delete" }) : dispatch({ type: input })
+    return state.invalidOperation ? dispatch({ type: "Delete" }) : dispatch({ type: e.key })
   }
 
   const determineFontSize = () => {
@@ -177,12 +170,12 @@ function App() {
       <div className="calc-container">
         <div className="screen" style={{ fontSize: determineFontSize() }}>
           <div id="previous-screen-container">
-            <span id="previous-screen">{state.previousInput}</span>
-            <span id="previous-screen-operand"> {state.operation}</span>
+            <span id="previous-screen-digits">{state.previousInput}</span>
+            <span id="previous-screen-operator"> {state.operation}</span>
           </div>
           <div id="current-screen">{state.currentInput}</div>
         </div>
-        <Buttons handleInputs={handleInputs} />
+        <Buttons dispatch={dispatch} />
       </div>
       <Tips />
     </div>
