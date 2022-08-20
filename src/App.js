@@ -35,10 +35,10 @@ function reducer(state, action) {
   const validForChainOperation = state.previousInput && !state.currentInput && state.operation
 
   switch (action.type) {
-    case "*":
-    case "/":
     case "-":
     case "+":
+    case "x":
+    case "÷":
       if (validForCalculation) return calculate(state, action)
       if (validForChainOperation) {
         return {
@@ -79,21 +79,23 @@ function reducer(state, action) {
         currentInput: state.currentInput === "" ? "0." : state.currentInput.concat("."),
       }
 
-    // catching digits here: function returns 0-9 as "case clause" if input contains 0-9
     case "digit":
       // max input length
-      if (state.currentInput.length >= 12) return state
+      if (state.currentInput.length >= 11) return state
 
-      // if (state.operation === "=") {
+      // if (state.operation === "Enter") {
       //   return { ...defaultState, currentInput: action.payload }
       // }
+
       if (state.currentInput === "0") {
         return { ...state, currentInput: action.payload }
       }
+
       return {
         ...state,
         currentInput: state.currentInput.toString().concat(action.payload),
       }
+
     default:
       return state
   }
@@ -120,22 +122,34 @@ function calculate(state, action) {
       return state
   }
   // decimal length
-  result = parseFloat(result.toFixed(7)).toString()
+  result = parseFloat(result.toFixed(6)).toString()
 
-  return isNaN(result)
-    ? {
-        ...state,
-        previousInput: "😊Invalid",
-        currentInput: "operation",
-        operation: "",
-        invalidOperation: true,
-      }
-    : {
-        ...state,
-        currentInput: "",
-        operation: action.type,
-        previousInput: result,
-      }
+  if (isNaN(result)) {
+    return {
+      ...state,
+      previousInput: "😊Invalid",
+      currentInput: "operation",
+      operation: "",
+      invalidOperation: true,
+    }
+  }
+
+  if (result.length > 16) {
+    return {
+      ...state,
+      previousInput: "😊 Out of",
+      currentInput: "range",
+      operation: "",
+      invalidOperation: true,
+    }
+  }
+
+  return {
+    ...state,
+    currentInput: "",
+    operation: action.type,
+    previousInput: result,
+  }
 }
 
 function App() {
@@ -150,8 +164,8 @@ function App() {
   function handleKeyboardInputs(e) {
     console.log(e.key)
     if (e.key === undefined) return
-    const isNumeric = parseInt(e.key) >= 0 || parseInt(e.key) <= 9
-    if (!isNumeric && !inputFilterForKeyboard.includes(e.key)) return
+    const isDigit = parseInt(e.key) >= 0 || parseInt(e.key) <= 9
+    if (!isDigit && !inputFilterForKeyboard.includes(e.key)) return
     e.preventDefault()
     e.target.blur()
     return state.invalidOperation ? dispatch({ type: "Delete" }) : dispatch({ type: e.key })
@@ -161,12 +175,11 @@ function App() {
     let fontSize = "2.2rem"
     if (state.currentInput.length > 12 || state.previousInput.length > 12) fontSize = "2rem"
     if (state.currentInput.length > 14 || state.previousInput.length > 14) fontSize = "1.7rem"
-    if (state.currentInput.length > 17 || state.previousInput.length > 17) fontSize = "1.3rem"
     return fontSize
   }
 
   return (
-    <div className="App">
+    <main className="app">
       <div className="calc-container">
         <div className="screen" style={{ fontSize: determineFontSize() }}>
           <div id="previous-screen-container">
@@ -178,7 +191,7 @@ function App() {
         <Buttons dispatch={dispatch} />
       </div>
       <Tips />
-    </div>
+    </main>
   )
 }
 
