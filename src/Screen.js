@@ -1,17 +1,17 @@
-function determineOperatorSign(sign) {
-  if (sign === "Enter") return null
-
-  if (sign === "/") {
-    return <span id="previous-screen-operator">÷</span>
+function determineOperatorSymbol(symbol) {
+  if (symbol === "/") {
+    return "÷"
   }
 
-  if (sign === "*") {
-    return <span id="previous-screen-operator">x</span>
+  if (symbol === "*") {
+    return "x"
   }
+
+  return symbol
 }
 
 export default function Screen({ state }) {
-  const previousScreenOperator = determineOperatorSign(state.operation)
+  const operatorSymbol = determineOperatorSymbol(state.operation)
 
   const determineFontSize = () => {
     let fontSize = "2.2rem"
@@ -24,7 +24,7 @@ export default function Screen({ state }) {
     <div className="screen" style={{ fontSize: determineFontSize() }}>
       <div id="previous-screen-container">
         <span id="previous-screen-digits">{state.previousInput}</span>
-        {previousScreenOperator}
+        <span id="previous-screen-operator">{operatorSymbol}</span>
       </div>
       <div id="current-screen">{state.currentInput}</div>
     </div>

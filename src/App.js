@@ -34,12 +34,11 @@ function App() {
   }, [])
 
   function handleKeyboardInputs(e) {
-    e.preventDefault()
     e.target.blur()
-
     const keyboardInput = e.key
 
     if (keyboardInput === undefined) return
+
     const isDigit = parseInt(keyboardInput) >= 0 || parseInt(keyboardInput) <= 9
 
     if (!isDigit && !inputFilterForKeyboard.includes(keyboardInput)) return

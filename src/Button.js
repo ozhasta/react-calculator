@@ -1,6 +1,6 @@
-export default function Buttons({ dispatch, type, dataInput, renderAs }) {
+export default function Button({ dispatch, type, dataInput, renderAs }) {
   return (
-    <button onClick={() => dispatch({ type: type || "digit", payload: dataInput || type })}>
+    <button onClick={() => dispatch({ type: type || "digit", payload: dataInput })}>
       {renderAs || dataInput || type}
     </button>
   )

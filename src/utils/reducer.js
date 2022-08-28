@@ -16,11 +16,9 @@ export default function reducer(state, action) {
     case "*":
     case "/":
       if (validForCalculation) {
-        console.log("valid for calc")
-        return calculate(state, action)
+        return calculate(state)
       }
       if (validForChainOperation) {
-        console.log("valid for chain")
         return {
           ...state,
           operation: action.type,
@@ -34,7 +32,7 @@ export default function reducer(state, action) {
       }
 
     case "Enter":
-      if (validForCalculation) return calculate(state, action)
+      if (validForCalculation) return calculate(state)
       else return state
 
     case "Escape":
@@ -47,6 +45,8 @@ export default function reducer(state, action) {
       }
 
     case "Backspace":
+      if (state.currentInput === "") return state
+
       let tempResult = state.currentInput.toString().substring(0, state.currentInput.length - 1)
       return {
         ...state,
@@ -70,6 +70,14 @@ export default function reducer(state, action) {
         return { ...state, currentInput: action.payload }
       }
 
+      if (state.operation === "Enter") {
+        return {
+          ...state,
+          currentInput: state.currentInput.toString().concat(action.payload),
+          previousInput: "",
+        }
+      }
+
       return {
         ...state,
         currentInput: state.currentInput.toString().concat(action.payload),
@@ -80,7 +88,7 @@ export default function reducer(state, action) {
   }
 }
 
-function calculate(state, action) {
+function calculate(state) {
   let result
   let num1 = parseFloat(state.previousInput)
   let num2 = parseFloat(state.currentInput)
@@ -126,7 +134,7 @@ function calculate(state, action) {
   return {
     ...state,
     currentInput: "",
-    // operation: action.payload,
+    operation: state.operation,
     previousInput: result,
   }
 }

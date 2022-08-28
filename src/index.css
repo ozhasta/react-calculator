@@ -69,15 +69,6 @@ body {
   font-size: 3rem;
 }
 
-.btn-container > button:hover {
-  background-color: rgb(105, 197, 228);
-}
-
-.btn-container > button:active {
-  transform: scale(0.95);
-  transition: transform 0.15s;
-}
-
 /* btn C */
 .btn-container > button:first-child {
   width: 3.4em;
@@ -96,6 +87,15 @@ body {
 /* operator btn ÷ x - +  */
 .btn-container > :nth-child(4n-1) {
   background-color: darkkhaki;
+}
+
+.btn-container > button:hover {
+  background-color: rgb(105, 197, 228);
+}
+
+.btn-container > button:active {
+  transform: scale(0.95);
+  transition: transform 0.15s;
 }
 
 .tips {
