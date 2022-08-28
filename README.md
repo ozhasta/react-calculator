@@ -1,4 +1,4 @@
-# Calculator
+# React Calculator
 
 > Don't count your fingers, use this calculator instead :)
 
