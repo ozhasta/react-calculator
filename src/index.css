@@ -17,26 +17,31 @@ body {
   background: linear-gradient(270deg, rgb(0, 60, 100), rgb(11, 82, 53));
   font-family: "Roboto Mono", monospace;
   font-size: 2rem;
-  height: 100%;
+  height: 100vh;
   user-select: none;
   padding: 1rem;
+}
+
+.screen {
+  line-height: 1;
+  text-align: right;
+  padding: 0.3rem 0.5rem;
+  background-color: rgba(125, 140, 115);
+  height: 6rem;
+  border-radius: 5px;
 }
 
 #previous-screen-container {
   height: 2.75rem;
 }
 
-#current-screen {
-  height: 2.75rem;
+#previous-screen-operator {
+  margin-left: 1ch;
+  color: rgb(255, 236, 179);
 }
 
-.screen {
-  line-height: 1;
-  text-align: right;
-  padding: 0.2rem 0.4rem;
-  background-color: rgba(125, 140, 115);
-  height: 6rem;
-  border-radius: 5px;
+#current-screen {
+  height: 2.75rem;
 }
 
 .calc-container {
@@ -104,6 +109,7 @@ body {
     font-size: 13px;
   }
 }
+
 @media screen and (max-width: 359px) {
   html {
     font-size: 12px;
