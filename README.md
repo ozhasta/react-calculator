@@ -4,7 +4,7 @@
 
 ---
 
-![React Calculator](/screenshot.jpg?raw=true)
+![React Calculator](screenshot.jpg?raw=true)
 
 ---
 ## Live Demo
