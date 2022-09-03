@@ -26,7 +26,7 @@ If you want to see vanilla JS version of this project, [click here](https://gith
 
 | Command                                                     | Action                                       |
 | :---------------------------------------------------------- | :------------------------------------------- |
-| `git clone https://github.com/b0tm0de/react-calculator.git` | Clone the repo                               |
+| `git clone https://github.com/ozhasta/react-calculator.git` | Clone the repo                               |
 | `cd react-calculator`                                       | Change directory to root of project          |
 | `npm install`                                               | Install dependencies                         |
 | `npm start`                                                 | Start local development server               |
