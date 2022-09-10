@@ -18,7 +18,7 @@ You can chain multiple calculations like: 30 + 12 * 3 - 1, also It's working wit
 There is functionality to use it with a keyboard or mouse (in mobile touching).
 
 I ported my own vanilla JS version to React.
-If you want to see vanilla JS version of this project, [click here](https://github.com/b0tm0de/vanilla-js-calculator)
+If you want to see vanilla JS version of this project, [click here](https://github.com/ozhasta/vanilla-js-calculator)
 
 ---
 
